@@ -1,7 +1,10 @@
 package com.example.servlet;
 
 import com.example.Users;
+import sun.rmi.server.Dispatcher;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,11 +33,12 @@ public class LoginServlet extends HttpServlet {
         if(Users.getInstance().getUsers().contains(req.getParameter("login"))){
 
             if(req.getParameter("password") !=null){
-                req.setAttribute("user",req.getParameter("login"));
+                req.setAttribute("user", Users.getInstance().getUsers().contains("login"));
                 resp.sendRedirect("/user/hello.jsp");
             }
         }
-        else resp.sendRedirect("/login.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/login");
+        dispatcher.forward(req,resp);
 
     }
 }
