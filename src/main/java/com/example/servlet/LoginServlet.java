@@ -34,21 +34,16 @@ public class LoginServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
 
-
-            try {
-                if(Users.getInstance().getUsers().contains(req.getParameter("login"))){
-                if(req.getParameter("password") !=null){
-                    session.setAttribute("user", Users.getInstance().getUsers().contains("login"));
-                    resp.sendRedirect("/user/hello.jsp");
-                }
-                RequestDispatcher dispatcher = req.getRequestDispatcher("/login");
-                dispatcher.forward(req,resp);
-
+        if(req.getParameter("login") !=null && Users.getInstance().getUsers().contains(req.getParameter("login"))){
+            if (!req.getParameter("password").isEmpty() && !req.getParameter("password").equals(" ")){
+                session.setAttribute("user", req.getParameter("login"));
+                resp.sendRedirect("/user/hello.jsp");
             }
 
-            } catch (NullPointerException e){
-                RequestDispatcher dispatcher = req.getRequestDispatcher("/login");
-                dispatcher.forward(req,resp);
-    }
+        }
+        else {
+            RequestDispatcher dispatcherType = req.getRequestDispatcher("/login");
+            dispatcherType.forward(req,resp);
+        }
     }
 }
